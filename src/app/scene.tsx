@@ -12,6 +12,7 @@ import { Color, DesignStyle, Limit, ToroidProps } from "@/app/helpers/types";
 const Scene = () => {
   const [ringCount, setRingCount] = useState(3);
   const [designStyle, setDesignStyle] = useState<DesignStyle>("offset");
+  const [printMode, setPrintMode] = useState(false);
 
   const [activeColor, setActiveColor] = useState<Color>("#ffffff");
   const [colorSwatches, setColorSwatches] = useState<Color[]>([]);
@@ -19,6 +20,9 @@ const Scene = () => {
   const [xLimits, setXLimits] = useState<Limit>([1, 1]);
   const [yLimits, setYLimits] = useState<Limit>([1, 1]);
   const [zLimits, setZLimits] = useState<Limit>([1, 1]);
+
+  const togglePrintMode = () => setPrintMode(!printMode);
+  console.log({ printMode });
 
   const [rings, setRings] = useState<ToroidProps[]>(
     mapObjects(ringCount, designStyle)
@@ -43,6 +47,7 @@ const Scene = () => {
   return (
     <>
       <Overlay
+        enabled={!printMode}
         {...{
           rings,
           setRings,
@@ -60,6 +65,7 @@ const Scene = () => {
           setRingCount,
           designStyle,
           setDesignStyle,
+          togglePrintMode,
         }}
       />
       <Canvas
@@ -75,7 +81,11 @@ const Scene = () => {
         }}
       >
         <PivotControls anchor={[-1.1, -1.1, -1.1]} scale={3} lineWidth={3.5}>
-          <Cube {...{ activeColor, rings, setRings }} />
+          {printMode ? (
+            <PrintMode {...{ rings }} />
+          ) : (
+            <Cube {...{ activeColor, rings, setRings }} />
+          )}
         </PivotControls>
         <CameraControls />
         <ambientLight intensity={0.6} />

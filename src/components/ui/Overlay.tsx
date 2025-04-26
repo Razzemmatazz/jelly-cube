@@ -22,6 +22,7 @@ import { DesignStyle, Limit, ToroidProps } from "@/app/helpers/types";
 import { Dispatch, SetStateAction } from "react";
 
 interface OverlayProps {
+  enabled: boolean;
   rings: ToroidProps[];
   setRings: Dispatch<SetStateAction<ToroidProps[]>>;
   xLimits: Limit;
@@ -38,9 +39,11 @@ interface OverlayProps {
   setRingCount: Dispatch<SetStateAction<number>>;
   designStyle: DesignStyle;
   setDesignStyle: Dispatch<SetStateAction<DesignStyle>>;
+  togglePrintMode: () => void;
 }
 
 export const Overlay = ({
+  enabled,
   rings,
   setRings,
   xLimits,
@@ -57,6 +60,7 @@ export const Overlay = ({
   setRingCount,
   designStyle,
   setDesignStyle,
+  togglePrintMode,
 }: OverlayProps) => {
   const { toggleColorMode } = useColorMode();
   const maxLayers = getLayerCount(ringCount, designStyle);
@@ -200,7 +204,7 @@ export const Overlay = ({
         >
           Save Cube Data
         </Button>
-        <Button marginLeft={10} onClick={() => {}}>
+        <Button marginLeft={10} onClick={togglePrintMode}>
           Print Cube Layers
         </Button>
       </HStack>

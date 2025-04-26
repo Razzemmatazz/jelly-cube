@@ -18,16 +18,10 @@ const Toroid = ({
       {...props}
       ref={ref}
       onClick={(event) => {
-        if (!props.visible) {
-          return;
-        }
         event.stopPropagation();
         updateColor(props.index);
       }}
       onPointerOver={(event) => {
-        if (!props.visible) {
-          return;
-        }
         event.stopPropagation();
         hover(true);
       }}
@@ -59,13 +53,13 @@ const Cube = ({ activeColor, rings, setRings }: CubeProps) => {
   return (
     <>
       {rings.map((props) => {
-        return (
+        return props.visible ? (
           <Toroid
             key={props.position.toString()}
             props={props}
             {...{ updateColor }}
           />
-        );
+        ) : null;
       })}
     </>
   );
