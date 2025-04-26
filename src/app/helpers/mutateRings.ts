@@ -68,19 +68,27 @@ export const resetVisibility = (
 
 export const importJSONToObjects = async (
   event: FileUploadFileAcceptDetails,
-  setRings: Dispatch<SetStateAction<ToroidProps[]>>
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>,
+  setActiveColor: Dispatch<SetStateAction<string>>,
+  setColorSwatches: Dispatch<SetStateAction<string[]>>
 ) => {
   return new Promise<void>(async (res) => {
     const uploadFile = event.files[0];
     const text = await new Response(uploadFile).text();
-    const data = JSON.parse(text);
-    setRings(data);
+    const { rings, activeColor, colorSwatches } = JSON.parse(text);
+    setRings(rings);
+    setActiveColor(activeColor);
+    setColorSwatches(colorSwatches);
     res();
   });
 };
 
-export const exportRingsToJSON = (rings: ToroidProps[]) => {
-  const json = JSON.stringify(rings);
+export const exportRingsToJSON = (
+  rings: ToroidProps[],
+  activeColor: string,
+  colorSwatches: string[]
+) => {
+  const json = JSON.stringify({ rings, activeColor, colorSwatches });
   const blob = new Blob([json], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
 

@@ -120,7 +120,14 @@ export const Overlay = ({
         <FileUpload.Root
           accept={["application/json"]}
           marginTop={5}
-          onFileAccept={(event) => importJSONToObjects(event, setRings)}
+          onFileAccept={(event) =>
+            importJSONToObjects(
+              event,
+              setRings,
+              setActiveColor,
+              setColorSwatches
+            )
+          }
         >
           <FileUpload.HiddenInput />
           <FileUpload.Trigger asChild>
@@ -188,7 +195,11 @@ export const Overlay = ({
         setColorSwatches={setColorSwatches}
       />
       <HStack position="absolute" bottom={10} left={10}>
-        <Button onClick={() => exportRingsToJSON(rings)}>Save Cube Data</Button>
+        <Button
+          onClick={() => exportRingsToJSON(rings, activeColor, colorSwatches)}
+        >
+          Save Cube Data
+        </Button>
         <Button marginLeft={10} onClick={() => {}}>
           Print Cube Layers
         </Button>
