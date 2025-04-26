@@ -1,36 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a web app to help with doing color work with jelly cubes. It can render up to a 10x10 and supports all 3 styles of jelly cube.
+Fair warning, rendering a 10x10 takes my PC about 5 seconds and adds a persistent 15% CPU load while the app window is open, and I have a high-end development/gaming machine so it may be too intense for your PC.
 
-## Getting Started
+Features:
 
-First, run the development server:
+- Functions for saving/importing your colored cube data
+- The green slider bars adjust visibility on each of the layers to allow you to access the inner layers of the cube. The Show All Rings button will reset the visibility sliders so all rings are displayed again.
+- Color Selection Interface. Up to 5 colors can be preserved using the blue + button for quickly selecting between colors. (These aren't currently saved with your cube data, but I'll try to include that in a future update)
+- Light and dark mode for changing your background color.
+  There will eventually be a function that splits the cube apart into layers to print off a build guide, but that's still a work in progress.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+One major caveat: Please select your size and style first, as the cube regenerates from scratch and doesn't currently save any of your existing color work when you change those two parameters. This will be adjusted in a future update.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+https://jelly-cube.onrender.com/
