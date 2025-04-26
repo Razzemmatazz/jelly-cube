@@ -4,7 +4,6 @@ import { DesignStyle, ToroidProps } from "./helpers/types";
 
 function mapMinimal(props: ToroidProps, x: number, y: number, z: number) {
   const ninetyDegrees = degToRad(90);
-  props.visible = true;
   const isFlatRow = y % 2 === 0;
   const xEven = x % 2 === 0;
   const zEven = z % 2 === 0;
@@ -24,7 +23,6 @@ function mapMinimal(props: ToroidProps, x: number, y: number, z: number) {
 
 function mapOffset(props: ToroidProps, x: number, y: number, z: number) {
   const ninetyDegrees = degToRad(90);
-  props.visible = true;
   const isFlatRow = y % 2 === 0;
   const xEven = x % 2;
   const zEven = z % 2;
@@ -44,7 +42,6 @@ function mapOffset(props: ToroidProps, x: number, y: number, z: number) {
 
 function mapSymmetrical(props: ToroidProps, x: number, y: number, z: number) {
   const ninetyDegrees = degToRad(90);
-  props.visible = true;
   const isFlatRow = y % 2 === 0;
   const xEven = x % 2;
   const zEven = z % 2;
@@ -82,6 +79,7 @@ export function mapObjects(count: number, designStyle: DesignStyle) {
             z * toroid.innerDiameter,
           ],
           rotation: [0, 0, 0],
+          visible: true,
         };
         if (designStyle === "minimal") {
           if (

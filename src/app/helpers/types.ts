@@ -10,7 +10,7 @@ export interface ToroidProps {
   };
   position: [number, number, number];
   rotation: [number, number, number];
-  visible?: boolean;
+  visible: boolean;
 }
 
 export type Color = string;
