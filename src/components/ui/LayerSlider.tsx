@@ -1,7 +1,7 @@
 import { HStack, Slider, VStack } from "@chakra-ui/react";
 
 interface LayerSliderProps extends Slider.RootProps {
-  setValue: () => void;
+  setValue: (arg0: number[]) => void;
   label: string;
 }
 
@@ -17,9 +17,7 @@ export const LayerSlider = ({
       colorPalette="green"
       min={1}
       minStepsBetweenThumbs={0}
-      onValueChange={(e) => {
-        setValue(e.value);
-      }}
+      onValueChange={(e) => setValue(e.value)}
       {...props}
     >
       <LabelStack justify="space-between">

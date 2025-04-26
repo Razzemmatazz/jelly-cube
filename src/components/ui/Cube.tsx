@@ -1,18 +1,15 @@
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { toroid } from "@/app/helpers/constants";
 import { changeColor } from "@/app/helpers/mutateRings";
+import { ToroidProps } from "@/app/helpers/types";
 
-interface Object {
-  color: string;
-  position: [number, number, number];
-  rotation: [number, number, number];
-  visible: boolean;
-}
-interface ToroidProps {
-  props: Object;
-}
-
-const Toroid = ({ props, updateColor }: ToroidProps) => {
+const Toroid = ({
+  props,
+  updateColor,
+}: {
+  props: ToroidProps;
+  updateColor: (arg0: number) => void;
+}) => {
   const ref = useRef(null);
   const [hovered, hover] = useState(false);
 
@@ -34,7 +31,7 @@ const Toroid = ({ props, updateColor }: ToroidProps) => {
         event.stopPropagation();
         hover(true);
       }}
-      onPointerOut={(event) => hover(false)}
+      onPointerOut={() => hover(false)}
     >
       <torusGeometry
         args={[
@@ -49,8 +46,14 @@ const Toroid = ({ props, updateColor }: ToroidProps) => {
   );
 };
 
-const Cube = ({ activeColor, rings, setRings }) => {
-  const updateColor = (index) => {
+interface CubeProps {
+  activeColor: string;
+  rings: ToroidProps[];
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>;
+}
+
+const Cube = ({ activeColor, rings, setRings }: CubeProps) => {
+  const updateColor = (index: number) => {
     changeColor(activeColor, index, rings, setRings);
   };
   return (

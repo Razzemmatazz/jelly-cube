@@ -18,6 +18,27 @@ import {
   resetColors,
   resetVisibility,
 } from "@/app/helpers/mutateRings";
+import { DesignStyle, Limit, ToroidProps } from "@/app/helpers/types";
+import { Dispatch, SetStateAction } from "react";
+
+interface OverlayProps {
+  rings: ToroidProps[];
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>;
+  xLimits: Limit;
+  setXLimits: Dispatch<SetStateAction<Limit>>;
+  yLimits: Limit;
+  setYLimits: Dispatch<SetStateAction<Limit>>;
+  zLimits: Limit;
+  setZLimits: Dispatch<SetStateAction<Limit>>;
+  activeColor: string;
+  setActiveColor: Dispatch<SetStateAction<string>>;
+  colorSwatches: string[];
+  setColorSwatches: Dispatch<SetStateAction<string[]>>;
+  ringCount: number;
+  setRingCount: Dispatch<SetStateAction<number>>;
+  designStyle: DesignStyle;
+  setDesignStyle: Dispatch<SetStateAction<DesignStyle>>;
+}
 
 export const Overlay = ({
   rings,
@@ -36,7 +57,7 @@ export const Overlay = ({
   setRingCount,
   designStyle,
   setDesignStyle,
-}) => {
+}: OverlayProps) => {
   const { toggleColorMode } = useColorMode();
   const maxLayers = getLayerCount(ringCount, designStyle);
   const totalRings = rings.length;
@@ -76,9 +97,7 @@ export const Overlay = ({
           </Menu.Root>
           <Menu.Root
             size="md"
-            onSelect={(event) => {
-              setDesignStyle(event.value);
-            }}
+            onSelect={(event) => setDesignStyle(event.value)}
           >
             <Menu.Trigger asChild>
               <Button variant="outline">
@@ -162,13 +181,11 @@ export const Overlay = ({
         position="absolute"
         right={0}
         bottom={0}
+        activeColor={activeColor}
         setColor={setActiveColor}
-        {...{
-          activeColor,
-          colorSwatches,
-          resetRingColors,
-          setColorSwatches,
-        }}
+        colorSwatches={colorSwatches}
+        resetRingColors={resetRingColors}
+        setColorSwatches={setColorSwatches}
       />
       <HStack position="absolute" bottom={10} left={10}>
         <Button onClick={() => exportRingsToJSON(rings)}>Save Cube Data</Button>

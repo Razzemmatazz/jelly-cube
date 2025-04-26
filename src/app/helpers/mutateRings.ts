@@ -1,7 +1,15 @@
 import update from "immutability-helper";
 import { toroid } from "@/app/helpers/constants";
+import { Limits, ToroidProps } from "@/app/helpers/types";
+import { FileUploadFileAcceptDetails } from "@chakra-ui/react";
+import { Dispatch, SetStateAction } from "react";
 
-export const changeColor = (color, index, rings, setRings) => {
+export const changeColor = (
+  color: string,
+  index: number,
+  rings: ToroidProps[],
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>
+) => {
   const newRingsArr = update(rings, {
     [index]: {
       color: {
@@ -12,7 +20,11 @@ export const changeColor = (color, index, rings, setRings) => {
   setRings(newRingsArr);
 };
 
-export const toggleRingVisibility = (limits, rings, setRings) => {
+export const toggleRingVisibility = (
+  limits: Limits,
+  rings: ToroidProps[],
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>
+) => {
   const [xLimits, yLimits, zLimits] = limits;
   const newRingsArr = [...rings];
   newRingsArr.forEach((ring) => {
@@ -32,7 +44,10 @@ export const toggleRingVisibility = (limits, rings, setRings) => {
   setRings(newRingsArr);
 };
 
-export const resetColors = (rings, setRings) => {
+export const resetColors = (
+  rings: ToroidProps[],
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>
+) => {
   const newRingsArr = [...rings];
   newRingsArr.forEach((ring) => {
     ring.color = toroid.color;
@@ -40,7 +55,10 @@ export const resetColors = (rings, setRings) => {
   setRings(newRingsArr);
 };
 
-export const resetVisibility = (rings, setRings) => {
+export const resetVisibility = (
+  rings: ToroidProps[],
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>
+) => {
   const newRingsArr = [...rings];
   newRingsArr.forEach((ring) => {
     ring.visible = true;
@@ -48,7 +66,10 @@ export const resetVisibility = (rings, setRings) => {
   setRings(newRingsArr);
 };
 
-export const importJSONToObjects = async (event, setRings) => {
+export const importJSONToObjects = async (
+  event: FileUploadFileAcceptDetails,
+  setRings: Dispatch<SetStateAction<ToroidProps[]>>
+) => {
   return new Promise<void>(async (res) => {
     const uploadFile = event.files[0];
     const text = await new Response(uploadFile).text();
@@ -58,7 +79,7 @@ export const importJSONToObjects = async (event, setRings) => {
   });
 };
 
-export const exportRingsToJSON = (rings) => {
+export const exportRingsToJSON = (rings: ToroidProps[]) => {
   const json = JSON.stringify(rings);
   const blob = new Blob([json], { type: "text/plain" });
   const url = URL.createObjectURL(blob);

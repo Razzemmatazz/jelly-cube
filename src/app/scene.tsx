@@ -7,19 +7,22 @@ import { Overlay } from "@/components/ui/Overlay";
 import { getLayerCount, toroid } from "@/app/helpers/constants";
 import { mapObjects } from "@/app/cube";
 import { toggleRingVisibility } from "@/app/helpers/mutateRings";
+import { Color, DesignStyle, Limit, ToroidProps } from "@/app/helpers/types";
 
 const Scene = () => {
   const [ringCount, setRingCount] = useState(3);
-  const [designStyle, setDesignStyle] = useState("offset");
+  const [designStyle, setDesignStyle] = useState<DesignStyle>("offset");
 
-  const [activeColor, setActiveColor] = useState("#ffffff");
-  const [colorSwatches, setColorSwatches] = useState([]);
+  const [activeColor, setActiveColor] = useState<Color>("#ffffff");
+  const [colorSwatches, setColorSwatches] = useState<Color[]>([]);
 
-  const [xLimits, setXLimits] = useState([1, 1]);
-  const [yLimits, setYLimits] = useState([1, 1]);
-  const [zLimits, setZLimits] = useState([1, 1]);
+  const [xLimits, setXLimits] = useState<Limit>([1, 1]);
+  const [yLimits, setYLimits] = useState<Limit>([1, 1]);
+  const [zLimits, setZLimits] = useState<Limit>([1, 1]);
 
-  const [rings, setRings] = useState(mapObjects(ringCount, designStyle));
+  const [rings, setRings] = useState<ToroidProps[]>(
+    mapObjects(ringCount, designStyle)
+  );
 
   useEffect(() => {
     setRings(mapObjects(ringCount, designStyle));
@@ -34,6 +37,7 @@ const Scene = () => {
 
   useEffect(() => {
     toggleRingVisibility([xLimits, yLimits, zLimits], rings, setRings);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [xLimits, yLimits, zLimits]);
 
   return (

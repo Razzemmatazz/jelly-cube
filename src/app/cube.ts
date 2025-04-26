@@ -1,18 +1,6 @@
 import { degToRad } from "three/src/math/MathUtils.js";
 import { getLayerCount, toroid } from "@/app/helpers/constants";
-
-interface ToroidProps {
-  index: number;
-  color: string;
-  coords: {
-    x: number;
-    y: number;
-    z: number;
-  };
-  position: [number, number, number];
-  rotation: [number, number, number];
-  visible?: boolean;
-}
+import { DesignStyle, ToroidProps } from "./helpers/types";
 
 function mapMinimal(props: ToroidProps, x: number, y: number, z: number) {
   const ninetyDegrees = degToRad(90);
@@ -74,10 +62,7 @@ function mapSymmetrical(props: ToroidProps, x: number, y: number, z: number) {
   return props;
 }
 
-export function mapObjects(
-  count: number,
-  designStyle: "minimal" | "offset" | "symmetrical"
-) {
+export function mapObjects(count: number, designStyle: DesignStyle) {
   const objects = [];
   const layerLimit = getLayerCount(count, designStyle);
   for (let x = 0; x < layerLimit; x++) {

@@ -3,7 +3,6 @@ import {
   Button,
   ColorPicker,
   HStack,
-  Input,
   parseColor,
   Popover,
   Portal,
@@ -12,14 +11,26 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
+interface ColorPickerProps {
+  activeColor: string;
+  resetRingColors: () => void;
+  setColor: (arg0: string) => void;
+  colorSwatches: string[];
+  setColorSwatches: (arg0: string[]) => void;
+  position?: string;
+  right?: number;
+  bottom?: number;
+}
+
 export const ColorPickerInline = ({
   activeColor,
   resetRingColors,
   setColor,
+  colorSwatches,
+  setColorSwatches,
   ...props
-}) => {
+}: ColorPickerProps) => {
   const [showPopover, setPopoverStatus] = useState(false);
-  const { colorSwatches, setColorSwatches } = props;
   const addColorToSwatches = () => {
     if (colorSwatches.indexOf(activeColor) > -1) {
       return;

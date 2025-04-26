@@ -1,3 +1,5 @@
+import { DesignStyle } from "@/app/helpers/types";
+
 export const toroid = {
   color: "#aaaaaa",
   innerDiameter: 2.6,
@@ -11,6 +13,6 @@ const designLayerModifier = {
   symmetrical: 1,
 };
 
-export const getLayerCount = (count, designStyle) => {
+export const getLayerCount = (count: number, designStyle: DesignStyle) => {
   return count * 2 + designLayerModifier[designStyle];
 };
