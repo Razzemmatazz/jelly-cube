@@ -4,10 +4,15 @@ import { Canvas } from "@react-three/fiber";
 import { CameraControls, PivotControls } from "@react-three/drei";
 import Cube from "@/components/ui/Cube";
 import { Overlay } from "@/components/ui/Overlay";
-import { getLayerCount, toroid } from "@/app/helpers/constants";
+import {
+  designStyleLayerModifiers,
+  getLayerCount,
+  toroid,
+} from "@/app/helpers/constants";
 import { mapObjects } from "@/app/cube";
 import { toggleRingVisibility } from "@/app/helpers/mutateRings";
 import { Color, DesignStyle, Limit, ToroidProps } from "@/app/helpers/types";
+import { PrintMode } from "@/components/ui/PrintMode";
 
 const Scene = () => {
   const [ringCount, setRingCount] = useState(3);
@@ -22,14 +27,14 @@ const Scene = () => {
   const [zLimits, setZLimits] = useState<Limit>([1, 1]);
 
   const togglePrintMode = () => setPrintMode(!printMode);
-  console.log({ printMode });
 
   const [rings, setRings] = useState<ToroidProps[]>(
-    mapObjects(ringCount, designStyle)
+    mapObjects(ringCount, designStyle, [])
   );
 
   useEffect(() => {
-    setRings(mapObjects(ringCount, designStyle));
+    setRings(mapObjects(ringCount, designStyle, rings));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ringCount, designStyle]);
 
   useEffect(() => {
@@ -40,7 +45,15 @@ const Scene = () => {
   }, [ringCount, designStyle]);
 
   useEffect(() => {
-    toggleRingVisibility([xLimits, yLimits, zLimits], rings, setRings);
+    const layerModifier: number = designStyleLayerModifiers[designStyle];
+    const adjustedXLimits = [xLimits[0], xLimits[1] + layerModifier];
+    const adjustedYLimits = [yLimits[0], yLimits[1] + layerModifier];
+    const adjustedZLimits = [zLimits[0], zLimits[1] + layerModifier];
+    toggleRingVisibility(
+      [adjustedXLimits, adjustedYLimits, adjustedZLimits],
+      rings,
+      setRings
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [xLimits, yLimits, zLimits]);
 
