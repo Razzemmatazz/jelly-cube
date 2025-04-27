@@ -93,17 +93,22 @@ const Scene = () => {
           zoom: 1.5,
         }}
       >
-        <PivotControls anchor={[-1.1, -1.1, -1.1]} scale={3} lineWidth={3.5}>
+        <PivotControls
+          anchor={[-1.1, -1.1, -1.1]}
+          scale={3}
+          lineWidth={3.5}
+          enabled={!printMode}
+        >
           {printMode ? (
-            <PrintMode {...{ rings }} />
+            <PrintMode {...{ rings, ringCount, designStyle }} />
           ) : (
             <Cube {...{ activeColor, rings, setRings }} />
           )}
         </PivotControls>
         <CameraControls />
         <ambientLight intensity={0.6} />
-        <directionalLight color="white" position={[0, 0, 5]} />
-        <directionalLight color="white" position={[0, 0, -5]} />
+        <directionalLight color="white" position={[0, 5, 0]} />
+        <directionalLight color="white" position={[0, -5, 0]} />
       </Canvas>
     </>
   );
