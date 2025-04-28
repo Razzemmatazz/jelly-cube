@@ -1,8 +1,15 @@
 export const toroid = {
   color: "#aaaaaa",
+  outerDiameter: 4.6,
   innerDiameter: 2.6,
   tubeDiameter: 1,
-  cubeSize: 15.8,
+};
+
+export const printModeZoomLevels = {
+  2: 12,
+  3: 9,
+  4: 4.25,
+  5: 2.5,
 };
 
 const designLayerModifier = {

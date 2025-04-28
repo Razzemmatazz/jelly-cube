@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useRef, useState } from "react";
-import { toroid } from "@/app/helpers/constants";
+import { getLayerCount, toroid } from "@/app/helpers/constants";
 import { changeColor } from "@/app/helpers/mutateRings";
-import { ToroidProps } from "@/app/helpers/types";
+import { DesignStyle, ToroidProps } from "@/app/helpers/types";
+import { PerspectiveCamera } from "@react-three/drei";
 
 const Toroid = ({
   props,
@@ -42,16 +43,35 @@ const Toroid = ({
 
 interface CubeProps {
   activeColor: string;
+  designStyle: DesignStyle;
+  ringCount: number;
   rings: ToroidProps[];
   setRings: Dispatch<SetStateAction<ToroidProps[]>>;
 }
 
-const Cube = ({ activeColor, rings, setRings }: CubeProps) => {
+const Cube = ({
+  activeColor,
+  designStyle,
+  ringCount,
+  rings,
+  setRings,
+}: CubeProps) => {
   const updateColor = (index: number) => {
     changeColor(activeColor, index, rings, setRings);
   };
+  const maxLayers = getLayerCount(ringCount, designStyle);
+  const cubeSize =
+    (maxLayers / 2) * toroid.outerDiameter +
+    (maxLayers / 2) * toroid.tubeDiameter;
   return (
     <>
+      <PerspectiveCamera
+        near={1}
+        far={1000}
+        zoom={0.7}
+        position={[-cubeSize - 10, cubeSize + 30, -cubeSize]}
+        makeDefault
+      />
       {rings.map((props) => {
         return props.visible ? (
           <Toroid

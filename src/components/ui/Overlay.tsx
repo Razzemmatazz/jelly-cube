@@ -216,7 +216,7 @@ export const Overlay = ({
           textAlign="center"
           top="5px"
         >
-          <Text textStyle="4xl">
+          <Text fontWeight="bold" textStyle="4xl">
             {ringCount}x{ringCount} - {designStyle[0].toUpperCase()}
             {designStyle.slice(1)}
           </Text>

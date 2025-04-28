@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { CameraControls, PivotControls } from "@react-three/drei";
+import { CameraControls } from "@react-three/drei";
 import Cube from "@/components/ui/Cube";
 import { Overlay } from "@/components/ui/Overlay";
 import {
   designStyleLayerModifiers,
   getLayerCount,
-  toroid,
 } from "@/app/helpers/constants";
 import { mapObjects } from "@/app/cube";
 import { toggleRingVisibility } from "@/app/helpers/mutateRings";
@@ -81,30 +80,21 @@ const Scene = () => {
           togglePrintMode,
         }}
       />
-      <Canvas
-        camera={{
-          position: [
-            -toroid.cubeSize - 20,
-            toroid.cubeSize + 20,
-            -toroid.cubeSize - 10,
-          ],
-          near: 1,
-          far: 1000,
-          zoom: 1.5,
-        }}
-      >
-        <PivotControls
-          anchor={[-1.1, -1.1, -1.1]}
-          scale={3}
-          lineWidth={3.5}
-          enabled={!printMode}
-        >
-          {printMode ? (
-            <PrintMode {...{ rings, ringCount, designStyle }} />
-          ) : (
-            <Cube {...{ activeColor, rings, setRings }} />
-          )}
-        </PivotControls>
+      <Canvas>
+        {printMode ? (
+          <PrintMode {...{ printMode, rings, ringCount, designStyle }} />
+        ) : (
+          <Cube
+            {...{
+              activeColor,
+              printMode,
+              ringCount,
+              designStyle,
+              rings,
+              setRings,
+            }}
+          />
+        )}
         <CameraControls />
         <ambientLight intensity={0.6} />
         <directionalLight color="white" position={[0, 5, 0]} />

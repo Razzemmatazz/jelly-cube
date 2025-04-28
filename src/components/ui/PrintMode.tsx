@@ -1,6 +1,10 @@
 import { DesignStyle, ToroidProps } from "@/app/helpers/types";
-import { getLayerCount, toroid } from "@/app/helpers/constants";
-import { Text3D } from "@react-three/drei";
+import {
+  getLayerCount,
+  printModeZoomLevels,
+  toroid,
+} from "@/app/helpers/constants";
+import { OrthographicCamera, Text3D } from "@react-three/drei";
 import { ReactElement } from "react";
 import { degToRad } from "three/src/math/MathUtils.js";
 
@@ -9,10 +13,12 @@ const Toroid = ({
   spacing,
   columns,
   designStyle,
+  offset,
 }: {
   props: ToroidProps;
   spacing: number;
   columns: number;
+  offset: number;
   designStyle: DesignStyle;
 }) => {
   const yModifier = designStyle === "symmetrical" ? 0 : -1;
@@ -25,7 +31,7 @@ const Toroid = ({
       position={[
         props.position[0] + xModifier,
         0,
-        props.position[2] + zModifier,
+        props.position[2] + zModifier + offset,
       ]}
       onClick={(event) => {
         event.stopPropagation();
@@ -45,12 +51,11 @@ const Toroid = ({
   );
 };
 
-const ThreeText = ({ columns, designStyle, maxLayers, offset, spacing }) => {
+const ThreeText = ({ columns, maxLayers, spacing, textOffset }) => {
   const elements: ReactElement[] = [];
-  const yModifier = designStyle === "symmetrical" ? 1 : 0;
   for (let x = 0; x < maxLayers; x++) {
-    const xModifier = -Math.floor((x + yModifier) / columns) * spacing;
-    const zModifier = ((x + yModifier) % columns) * spacing;
+    const xModifier = -Math.floor(x / columns) * spacing;
+    const zModifier = (x % columns) * spacing - (columns / 2) * spacing;
     elements.push(
       <Text3D
         key={`${x}-printlabel`}
@@ -58,11 +63,11 @@ const ThreeText = ({ columns, designStyle, maxLayers, offset, spacing }) => {
         bevelEnabled
         bevelThickness={0.02}
         scale={5}
-        position={[xModifier, 0, zModifier + offset]}
+        position={[xModifier, 0, zModifier + textOffset]}
         rotation={[degToRad(-90), 0, degToRad(-90)]}
       >
         {x + 1}
-        <meshStandardMaterial color={toroid.color} />
+        <meshStandardMaterial color={"#888888"} />
       </Text3D>
     );
   }
@@ -85,10 +90,18 @@ export const PrintMode = ({
   const spacing =
     (maxLayers / 2) * toroidOD +
     (maxLayers / 2) * toroid.tubeDiameter +
-    2 * toroidOD;
+    2.5 * toroidOD;
 
+  const offset = (colCount / 2) * -spacing;
   return (
     <>
+      <OrthographicCamera
+        near={1}
+        far={1000}
+        zoom={printModeZoomLevels[colCount]}
+        position={[-1, 100, 0]}
+        makeDefault
+      />
       {rings.map((props) => {
         return props.visible ? (
           <Toroid
@@ -96,14 +109,14 @@ export const PrintMode = ({
             props={props}
             spacing={spacing}
             columns={colCount}
-            {...{ designStyle }}
+            {...{ designStyle, offset }}
           />
         ) : null;
       })}
       <ThreeText
         columns={colCount}
-        offset={-8 * toroid.tubeDiameter}
-        {...{ designStyle, maxLayers, spacing }}
+        textOffset={-10 * toroid.tubeDiameter}
+        {...{ maxLayers, spacing }}
       />
     </>
   );
